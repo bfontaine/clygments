@@ -1,7 +1,7 @@
 (ns clygments.core-test
   (:require [clojure.test :refer :all]
-            [clygments.core :refer :all]))
+            [clygments.core :as clg]))
 
-(deftest a-test
-  (testing "FIXME, I fail."
-    (is (= 0 1))))
+(deftest python-interpreter
+  (is (= 16 (.getValue (.eval @#'clg/python "pow(4,2)")))))
+
