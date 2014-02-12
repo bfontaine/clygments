@@ -25,6 +25,19 @@
   (testing "a true expression is True"
     (is (= (#'clg/py-true? "1+1 == 2") true))))
 
+(deftest escape-string
+  (testing "empty string"
+    (is (= (#'clg/escape-string "") "")))
+  (testing "no special chars"
+    (let [s "foobar 42 #$"]
+      (is (= (#'clg/escape-string s) s))))
+  (testing "backslashes only"
+    (is (= (#'clg/escape-string "here: \\") "here: \\\\")))
+  (testing "special \\-chars"
+    (is (= (#'clg/escape-string "newline: \\n") "newline: \\\\n")))
+  (testing "quotes"
+    (is (= (#'clg/escape-string "a \"string\".") "a \\\"string\\\"."))))
+
 (deftest highlight
   (testing "unknown language"
     (is (nil? (clg/highlight "foo = 2" :my-lang :html)))

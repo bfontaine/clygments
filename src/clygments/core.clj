@@ -1,4 +1,5 @@
 (ns clygments.core
+  (:require [clojure.string :as cs])
   (:import [org.python.util PythonInterpreter]))
 
 (def ^{:private true} python
@@ -22,6 +23,13 @@
   [expr]
   (= (.eval python expr) py-true))
 
+(defn- escape-string
+  "escape backslashes and double quotes in a string"
+  [s]
+  (-> s
+    (cs/replace #"\\" "\\\\\\\\") ; replace \ with \\
+    (cs/replace #"\"" "\\\\\"")))   ; replace " with \"
+
 (defn highlight
   "highlight a piece of code."
   [code lang output]
@@ -31,9 +39,8 @@
         "_f" (str "get_formatter_by_name(\"" (name output) "\")") "None")
       (if (and (py-true? "_r!=None") (py-true? "_f!=None"))
         (do
-          ;; XXX it won't work if 'code contains a sequence of three or more
-          ;; double quotes, e.g.: """
-          (.exec python (str "_res=highlight(\"\"\"" code "\"\"\",_r,_f)\n"))
+          (.exec python (str "_res=highlight(\"" (escape-string code) "\","
+                             "_r,_f)\n"))
           ;; FIXME it won't work with non-text formatters, such as gif
           (.get python "_res" String)))
       (catch Exception e
