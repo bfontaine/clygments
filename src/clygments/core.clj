@@ -19,9 +19,9 @@
 
 (def ^{:private true} py-true (.eval python "True"))
 (defn- py-true?
-  "test if an expression evals to True in Python"
-  [expr]
-  (= (.eval python expr) py-true))
+  "test if one or more expressions eval to True in Python"
+  [& exprs]
+  (every? #(= (.eval python %) py-true) exprs))
 
 (defn- escape-string
   "escape backslashes and double quotes in a string"
@@ -37,7 +37,7 @@
       (exec-code-in "_r" (str "get_lexer_by_name(\"" (name lang) "\")") "None")
       (exec-code-in
         "_f" (str "get_formatter_by_name(\"" (name output) "\")") "None")
-      (if (and (py-true? "_r!=None") (py-true? "_f!=None"))
+      (if (py-true? "_r!=None" "_f!=None")
         (do
           (.exec python (str "_res=highlight(\"" (escape-string code) "\","
                              "_r,_f)\n"))

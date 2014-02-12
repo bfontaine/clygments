@@ -23,7 +23,11 @@
   (testing "Truthy is not True"
     (is (= (#'clg/py-true? "42") false)))
   (testing "a true expression is True"
-    (is (= (#'clg/py-true? "1+1 == 2") true))))
+    (is (= (#'clg/py-true? "1+1 == 2") true))
+    (is (= (#'clg/py-true? "1+1 != 2") false)))
+  (testing "multiple expressions"
+    (is (= (#'clg/py-true? "1+1 == 2" "2+2 == 4") true))
+    (is (= (#'clg/py-true? "1+1 == 2" "2+1 == 4") false))))
 
 (deftest escape-string
   (testing "empty string"
