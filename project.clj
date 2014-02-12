@@ -1,4 +1,4 @@
-(defproject clygments "0.1.0-SNAPSHOT"
+(defproject clygments "0.1.0"
   :description "Use Pygments from Clojure"
   :url "http://github.com/bfontaine/clygments"
   :license {:name "Eclipse Public License"

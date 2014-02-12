@@ -4,8 +4,6 @@
 
 **clygments** is a Clojure bridge for [Pygments][].
 
-This is currently under development.
-
 [Pygments]: http://pygments.org/
 
 ## Usage
@@ -13,7 +11,7 @@ This is currently under development.
 Add the dependency in your `project.clj`:
 
 ```clj
-[clygments "0.1.0-SNAPSHOT"]
+[clygments "0.1.0"]
 ```
 
 Then:
