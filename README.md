@@ -1,5 +1,7 @@
 # clygments
 
+[![Build Status](https://travis-ci.org/bfontaine/clygments.png)](https://travis-ci.org/bfontaine/clygments)
+
 **clygments** is a Clojure bridge for [Pygments][].
 
 This is currently under development.
@@ -47,7 +49,7 @@ Only text output is supported for now, this includes:
 * `:bbcode`
 * `:html`
 * `:latex`
-* `:null` (no formatting, this left the code unchanged)
+* `:null` (no formatting, this leaves the code unchanged)
 * `:raw`
 * `:rtf`
 * `:svg`
