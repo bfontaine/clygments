@@ -24,8 +24,7 @@
 
 (defn highlight
   "highlight a piece of code."
-  ([code] (highlight code :python :html))
-  ([code lang output]
+  [code lang output]
     (try
       (exec-code-in "_r" (str "get_lexer_by_name(\"" (name lang) "\")") "None")
       (exec-code-in
@@ -35,8 +34,8 @@
           ;; XXX it won't work if 'code contains a sequence of three or more
           ;; double quotes, e.g.: """
           (.exec python (str "_res=highlight(\"\"\"" code "\"\"\",_r,_f)\n"))
-          ;; XXX it won't work with non-text formatters, such as gif
+          ;; FIXME it won't work with non-text formatters, such as gif
           (.get python "_res" String)))
       (catch Exception e
         (.printStackTrace e)
-        (println (.getMessage e))))))
+        (println (.getMessage e)))))
