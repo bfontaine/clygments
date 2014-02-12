@@ -1,6 +1,8 @@
 # clygments
 
-A Clojure library designed to ... well, that part is up to you.
+**clygments** is a Clojure bridge for [Pygments][].
+
+[Pygments]: http://pygments.org/
 
 ## Usage
 
@@ -8,7 +10,7 @@ FIXME
 
 ## License
 
-Copyright © 2014 FIXME
+Copyright © 2014 Baptiste Fontaine
 
 Distributed under the Eclipse Public License either version 1.0 or (at
 your option) any later version.
