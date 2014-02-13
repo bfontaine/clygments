@@ -54,6 +54,18 @@
   (testing "string"
     (is (= (#'clg/keyword->argname "Foo-Bar") "foobar"))))
 
+(deftest keyword->langname
+  (testing "one word"
+    (is (= (#'clg/keyword->langname :foo) "foo")))
+  (testing "capitalized"
+    (is (= (#'clg/keyword->langname :Foo) "foo")))
+  (testing "with an hyphen"
+    (is (= (#'clg/keyword->langname :foo-bar) "foo-bar")))
+  (testing "with an hyphen and capitalized"
+    (is (= (#'clg/keyword->langname :Foo-Bar) "foo-bar")))
+  (testing "string"
+    (is (= (#'clg/keyword->langname "Foo-Bar") "foo-bar"))))
+
 (deftest val->string
   (testing "nil"
     (is (= (#'clg/val->string nil) "None")))

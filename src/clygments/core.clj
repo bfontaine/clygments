@@ -38,6 +38,12 @@
     (cs/replace #"-" "")
     (.toLowerCase)))
 
+(defn- keyword->langname
+  "convert a keyword into a syntaxically valid language name for Pygments. This
+   doesn’t ensure that the language is supported by Pygments."
+  [k]
+  (.toLowerCase (name k)))
+
 (defn- val->string
   "convert a simple Clojure value into a stringified Python one"
   [v]
@@ -65,9 +71,9 @@
         ;; we give all options to both lexer and formatter, unknown ones will
         ;; be ignored
         (exec-code-in "_r" (format "get_lexer_by_name(\"%s\",%s)"
-                                   (name lang) opt-args) "None")
+                                   (keyword->langname lang) opt-args) "None")
         (exec-code-in "_f" (format "get_formatter_by_name(\"%s\",%s)"
-                                   (name output) opt-args) "None")
+                                   (keyword->langname output) opt-args) "None")
         (if (py-true? "_r!=None" "_f!=None")
           (do
             (.exec python (str "_res=highlight(\"\"\"" (escape-string code)

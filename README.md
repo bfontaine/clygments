@@ -69,7 +69,7 @@ Pygments’ docs for more info.
 (highlight "def foo():\n\tpass" :python :html {:tab-size 4})
 
 ;; generate a full standalone HTML document with a custom title
-(highlight "int i = 2+2;" :c :html {:full true, :title "This is my code"})
+(highlight "int i = 2+2;" :C :html {:full true, :title "This is my code"})
 ```
 
 [lexers]: http://pygments.org/docs/lexers/
