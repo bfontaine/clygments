@@ -28,21 +28,52 @@
   [s]
   (-> s
     (cs/replace #"\\" "\\\\\\\\") ; replace \ with \\
-    (cs/replace #"\"" "\\\\\"")))   ; replace " with \"
+    (cs/replace #"\"" "\\\\\""))) ; replace " with \"
+
+(defn- keyword->argname
+  "convert a Clojure keyword into an argument name for Pygments’ highlight
+   function."
+  [kw]
+  (-> (name kw)
+    (cs/replace #"-" "")
+    (.toLowerCase)))
+
+(defn- val->string
+  "convert a simple Clojure value into a stringified Python one"
+  [v]
+  (cond
+    (nil? v)     "None"
+    (true? v)    "True"
+    (false? v)   "False"
+    (number? v)  (str v)
+    (string? v)  (str \" (escape-string v) \")
+    (char? v)    (recur (str v))
+    (keyword? v) (recur (name v))))
+
+(defn- map->kw-args
+  "convert a map into a stringified list of Python keyword arguments"
+  [m]
+  (cs/join "," (map (fn [[k v]]
+                      (str (keyword->argname k) "=" (val->string v))) m)))
 
 (defn highlight
   "highlight a piece of code."
-  [code lang output]
+  ([code lang output] (highlight code lang output {}))
+  ([code lang output opts]
     (try
-      (exec-code-in "_r" (str "get_lexer_by_name(\"" (name lang) "\")") "None")
-      (exec-code-in
-        "_f" (str "get_formatter_by_name(\"" (name output) "\")") "None")
-      (if (py-true? "_r!=None" "_f!=None")
-        (do
-          (.exec python (str "_res=highlight(\"" (escape-string code) "\","
-                             "_r,_f)\n"))
-          ;; FIXME it won't work with non-text formatters, such as gif
-          (.get python "_res" String)))
+      (let [opt-args (map->kw-args opts)]
+        ;; we give all options to both lexer and formatter, unknown ones will
+        ;; be ignored
+        (exec-code-in "_r" (format "get_lexer_by_name(\"%s\",%s)"
+                                   (name lang) opt-args) "None")
+        (exec-code-in "_f" (format "get_formatter_by_name(\"%s\",%s)"
+                                   (name output) opt-args) "None")
+        (if (py-true? "_r!=None" "_f!=None")
+          (do
+            (.exec python (str "_res=highlight(\"\"\"" (escape-string code)
+                               "\"\"\",_r,_f)\n"))
+            ;; FIXME it won't work with non-text formatters, such as gif (#2)
+            (.get python "_res" String))))
       (catch Exception e
         (.printStackTrace e)
-        (println (.getMessage e)))))
+        (println (.getMessage e))))))
