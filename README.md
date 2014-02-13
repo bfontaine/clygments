@@ -2,7 +2,7 @@
 
 [![Build Status](https://travis-ci.org/bfontaine/clygments.png)](https://travis-ci.org/bfontaine/clygments)
 
-**clygments** is a Clojure bridge for [Pygments][].
+**clygments** is a Clojure wrapper for [Pygments][].
 
 [Pygments]: http://pygments.org/
 

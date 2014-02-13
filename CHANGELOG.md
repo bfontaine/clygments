@@ -2,7 +2,7 @@
 
 ## 0.1.1 (upcoming)
 
-* support added for lexers & formatters options
+* support for lexers & formatters options
 * better handling of multi-lines code
 * languages and outputs are case-insensitive (e.g. `:HTML` now works like
   `:html`)
