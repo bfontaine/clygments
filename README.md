@@ -56,6 +56,22 @@ Only text output is supported for now, this includes:
 
 See also [Pygments’ list][formatters].
 
+### Options
+
+All lexers’ and formatters’ options are supported since version 0.1.1. They are
+given as a map to `highlight` and support hyphens for a better readability. See
+Pygments’ docs for more info.
+
+#### Example
+
+```clj
+;; expand tabs to 4 spaces
+(highlight "def foo():\n\tpass" :python :html {:tab-size 4})
+
+;; generate a full standalone HTML document with a custom title
+(highlight "int i = 2+2;" :c :html {:full true, :title "This is my code"})
+```
+
 [lexers]: http://pygments.org/docs/lexers/
 [formatters]: http://pygments.org/docs/formatters/
 
