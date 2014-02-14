@@ -1,6 +1,7 @@
 # clygments
 
 [![Build Status](https://travis-ci.org/bfontaine/clygments.png)](https://travis-ci.org/bfontaine/clygments)
+[![Coverage Status](https://coveralls.io/repos/bfontaine/clygments/badge.png?branch=master)](https://coveralls.io/r/bfontaine/clygments?branch=master)
 
 **clygments** is a Clojure wrapper for [Pygments][].
 
