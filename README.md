@@ -12,7 +12,7 @@
 Add the dependency in your `project.clj`:
 
 ```clj
-[clygments "0.1.0"]
+[clygments "0.1.1"]
 ```
 
 Then:
@@ -43,8 +43,6 @@ See [Pygments’ list][lexers] for a list of available languages.
 
 ### Output
 
-Only text output is supported for now, this includes:
-
 * `:bbcode`
 * `:html`
 * `:latex`
@@ -55,7 +53,10 @@ Only text output is supported for now, this includes:
 * `:terminal256`
 * `:terminal`
 
-See also [Pygments’ list][formatters].
+Images outputs are [not][issue-2] supported. See also
+[Pygments docs][formatters] for the full list.
+
+[issue-2]: https://github.com/bfontaine/clygments/issues/2#issuecomment-35169407
 
 ### Options
 
