@@ -5,8 +5,8 @@
 (def ^{:private true} python
   (doto (PythonInterpreter.)
     (.exec (str "from pygments import highlight\n"
-                "from pygments.lexers import *\n"
-                "from pygments.formatters import *\n"))))
+                "from pygments.lexers import get_lexer_by_name\n"
+                "from pygments.formatters import get_formatter_by_name\n"))))
 
 (defn- exec-code-in
   "put the result of the execution of a line of code in a variable, with
