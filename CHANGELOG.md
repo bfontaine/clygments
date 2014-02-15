@@ -1,8 +1,10 @@
 # CHANGELOG
 
+## 0.1.2 (upcoming)
+
 ## 0.1.1
 
-* support for lexers & formatters options
+* support for lexers & formatters options (#1)
 * better handling of multi-lines code
 * languages and outputs are case-insensitive (e.g. `:HTML` now works like
   `:html`)
