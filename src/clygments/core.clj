@@ -78,7 +78,8 @@
           (do
             (.exec python (str "_res=highlight(\"\"\"" (escape-string code)
                                "\"\"\",_r,_f)\n"))
-            ;; FIXME it won't work with non-text formatters, such as gif (#2)
+            ;; This won't work with non-text formatters, such as gif, but it's
+            ;; ok since they're not supported on Jython (#2)
             (.get python "_res" String))))
       (catch Exception e
         (.printStackTrace e)
