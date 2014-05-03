@@ -2,6 +2,11 @@
 
 ## 0.1.2 (upcoming)
 
+* [breaking] main exceptions handler removed: versions 0.1.1 and before wrapped
+  the main code in a `try/catch` that would print the catched exception’s
+  message and the stacktrace. This is useless, exceptions should be catched by
+  the caller.
+
 ## 0.1.1
 
 * support for lexers & formatters options (#1)
