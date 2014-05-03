@@ -66,21 +66,17 @@
   "highlight a piece of code."
   ([code lang output] (highlight code lang output {}))
   ([code lang output opts]
-    (try
-      (let [opt-args (map->kw-args opts)]
-        ;; we give all options to both lexer and formatter, unknown ones will
-        ;; be ignored
-        (exec-code-in "_r" (format "get_lexer_by_name(\"%s\",%s)"
-                                   (keyword->langname lang) opt-args) "None")
-        (exec-code-in "_f" (format "get_formatter_by_name(\"%s\",%s)"
-                                   (keyword->langname output) opt-args) "None")
-        (if (py-true? "_r!=None" "_f!=None")
-          (do
-            (.exec python (str "_res=highlight(\"\"\"" (escape-string code)
-                               "\"\"\",_r,_f)\n"))
-            ;; This won't work with non-text formatters, such as gif, but it's
-            ;; ok since they're not supported on Jython (#2)
-            (.get python "_res" String))))
-      (catch Exception e
-        (.printStackTrace e)
-        (println (.getMessage e))))))
+    (let [opt-args (map->kw-args opts)]
+      ;; we give all options to both lexer and formatter, unknown ones will
+      ;; be ignored
+      (exec-code-in "_r" (format "get_lexer_by_name(\"%s\",%s)"
+                                 (keyword->langname lang) opt-args) "None")
+      (exec-code-in "_f" (format "get_formatter_by_name(\"%s\",%s)"
+                                 (keyword->langname output) opt-args) "None")
+      (if (py-true? "_r!=None" "_f!=None")
+        (do
+          (.exec python (str "_res=highlight(\"\"\"" (escape-string code)
+                             "\"\"\",_r,_f)\n"))
+          ;; This won't work with non-text formatters, such as gif, but it's
+          ;; ok since they're not supported on Jython (#2)
+          (.get python "_res" String))))))
