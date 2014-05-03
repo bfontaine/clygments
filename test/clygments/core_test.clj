@@ -120,4 +120,11 @@
              "\n\n(+ 1 2)\n")))
     (testing ":tab-size option"
       (is (= (clg/highlight "\t(+ 1 2)" :clojure :null {:tab-size 2})
-             "  (+ 1 2)\n")))))
+             "  (+ 1 2)\n")))
+    (testing "python syntax"
+      (let [s "def f():\n  \"\"\"\n  doc\n  \"\"\"\n  pass\n"]
+        (is (= (clg/highlight s :python :null) s)))
+      (let [s "a = \"foo\"\n"]
+        (is (= (clg/highlight s :python :null) s)))
+      (let [s "a = \"\\\"\"\n"]
+        (is (= (clg/highlight s :python :null) s))))))
