@@ -79,9 +79,9 @@ Pygments’ docs for more info.
 
 ## They use Clygments
 
-* [(first (rest))][http://first.rest/]
-* [August Lilleaas’ blog][http://augustl.com/]
-* [Sinon.JS’ website][http://sinonjs.org/]
+* [(first (rest))](http://first.rest/)
+* [August Lilleaas’ blog](http://augustl.com/)
+* [Sinon.JS’ website](http://sinonjs.org/)
 
 ## License
 
