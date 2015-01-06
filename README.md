@@ -1,7 +1,7 @@
 # clygments
 
-[![Build Status](https://travis-ci.org/bfontaine/clygments.png)](https://travis-ci.org/bfontaine/clygments)
-[![Coverage Status](https://coveralls.io/repos/bfontaine/clygments/badge.png?branch=master)](https://coveralls.io/r/bfontaine/clygments?branch=master)
+[![Build Status](https://img.shields.io/travis/bfontaine/clygments.svg)](https://travis-ci.org/bfontaine/clygments)
+[![Coverage Status](https://img.shields.io/coveralls/bfontaine/clygments.svg)](https://coveralls.io/r/bfontaine/clygments)
 
 **clygments** is a Clojure wrapper for [Pygments][].
 
@@ -77,9 +77,15 @@ Pygments’ docs for more info.
 [lexers]: http://pygments.org/docs/lexers/
 [formatters]: http://pygments.org/docs/formatters/
 
+## They use Clygments
+
+* [(first (rest))][http://first.rest/]
+* [August Lilleaas’ blog][http://augustl.com/]
+* [Sinon.JS’ website][http://sinonjs.org/]
+
 ## License
 
-Copyright © 2014 Baptiste Fontaine
+Copyright © 2014-2015 Baptiste Fontaine
 
 Distributed under the Eclipse Public License either version 1.0 or any later
 version.
