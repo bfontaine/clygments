@@ -77,12 +77,6 @@ Pygments’ docs for more info.
 [lexers]: http://pygments.org/docs/lexers/
 [formatters]: http://pygments.org/docs/formatters/
 
-## They use Clygments
-
-* [(first (rest))](http://first.rest/)
-* [August Lilleaas’ blog](http://augustl.com/)
-* [Sinon.JS’ website](http://sinonjs.org/)
-
 ## License
 
 Copyright © 2014-2015 Baptiste Fontaine
