@@ -1,13 +1,17 @@
 # CHANGELOG
 
-## 0.1.2 (upcoming)
+## 1.0.0 (2017/05/21)
 
-* [breaking] main exceptions handler removed: versions 0.1.1 and before wrapped
+* [breaking] Main exceptions handler removed: versions 0.1.1 and before wrapped
   the main code in a `try/catch` that would print the catched exception’s
-  message and the stacktrace. This is useless, exceptions should be catched by
+  message and the stacktrace. This is useless; exceptions should be catched by
   the caller.
+* Drop support for Java 6
+* Bump Pygments from 1.6 to [2.1.0][pygments-changelog].
 
-## 0.1.1
+[pygments-changelog]: http://pygments.org/docs/changelog/
+
+## 0.1.1 (2014/02/15)
 
 * support for lexers & formatters options (#1)
 * better handling of multi-lines code
@@ -18,6 +22,6 @@
 
 [1.6]: https://bitbucket.org/birkenfeld/pygments-main/src/3e451a3806d9215bae592d9c28321076e5e046ef/CHANGES?at=default#cl-102
 
-## 0.1.0
+## 0.1.0 (2014/02/12)
 
 initial version.
