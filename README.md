@@ -19,7 +19,7 @@ Then:
 
 ```clj
 (ns your-project.core
-  (:use 'clygments.core))
+  (:require [clygments.core :as clygments]))
 ```
 
 It exposes only one function, `highlight`. Give it your code as a string, its
@@ -31,7 +31,7 @@ language or output.
 ### Example
 
 ```clj
-(highlight "(def x (+ 20 22))" :clojure :html)
+(clygments/highlight "(def x (+ 20 22))" :clojure :html)
 ;; => <div class=\"highlight\"><pre><span class=\"p\">(</span><span class=\"k\">def </span><span class=\"nv\">x</span> <span class=\"mi\">42</span><span class=\"p\">)</span>\n</pre></div>
 ```
 
@@ -68,10 +68,10 @@ Pygments’ docs for more info.
 
 ```clj
 ;; expand tabs to 4 spaces
-(highlight "def foo():\n\tpass" :python :html {:tab-size 4})
+(cligments/highlight "def foo():\n\tpass" :python :html {:tab-size 4})
 
 ;; generate a full standalone HTML document with a custom title
-(highlight "int i = 2+2;" :C :html {:full true, :title "This is my code"})
+(cligments/highlight "int i = 2+2;" :C :html {:full true, :title "This is my code"})
 ```
 
 [lexers]: http://pygments.org/docs/lexers/
