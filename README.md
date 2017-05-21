@@ -12,7 +12,7 @@
 Add the dependency in your `project.clj`:
 
 ```clj
-[clygments "0.1.1"]
+[clygments "1.0.0"]
 ```
 
 Then:
