@@ -79,7 +79,7 @@ Pygments’ docs for more info.
 
 ## License
 
-Copyright © 2014-2016 Baptiste Fontaine
+Copyright © 2014-2017 Baptiste Fontaine
 
 Distributed under the Eclipse Public License either version 1.0 or any later
 version.
