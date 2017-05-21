@@ -37,6 +37,8 @@ language or output.
 
 ## Support
 
+Clygments 0.1.1 supports Java 6+ but Clygments 1.0.0 only supports Java 7+.
+
 ### Langages
 
 See [Pygments’ list][lexers] for a list of available languages.
