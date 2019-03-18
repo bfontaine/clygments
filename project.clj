@@ -4,6 +4,6 @@
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
   :dependencies [[org.clojure/clojure          "1.8.0"]
-                 [org.python/jython-standalone "2.7.0"]
-                 [org.pygments/pygments        "2.1.3"]]
+                 [org.python/jython-standalone "2.7.1"]
+                 [org.pygments/pygments        "2.3.1"]]
   :plugins [[lein-cloverage "1.0.9"]])
