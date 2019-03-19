@@ -25,12 +25,16 @@ def get_formatter_by_name(name, opts):
     except:
         pass
 
-def run(code, lexer_name, lexer_opts, formatter_name, formatter_opts):
-    lexer = get_lexer_by_name(lexer_name, lexer_opts)
-    formatter = get_formatter_by_name(formatter_name, formatter_opts)
+def run(code, lexer_name, formatter_name, opts):
+    lexer = get_lexer_by_name(lexer_name, opts)
+    formatter = get_formatter_by_name(formatter_name, opts)
 
     if lexer and formatter:
         return highlight(code, lexer, formatter)")))
+
+(def ^:private
+  py-run-fn
+  (.eval python "run"))
 
 (defmulti ^:private clj->jy type)
 
@@ -82,12 +86,9 @@ def run(code, lexer_name, lexer_opts, formatter_name, formatter_opts):
                           (fn [k]
                             (-> k name (str/replace #"-" "") str/lower-case)))
 
-         py-run-fn (.eval python "run")
-
          res (.__call__ py-run-fn
                         (into-array PyObject [py-code
                                               py-lexer-name
-                                              py-opts
                                               py-formatter-name
                                               py-opts]))]
 
