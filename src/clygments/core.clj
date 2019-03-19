@@ -1,7 +1,10 @@
 (ns clygments.core
   (:require [clojure.string :as str])
   (:import [org.python.util PythonInterpreter]
-           [org.python.core PyObject]))
+           [org.python.core PyObject PyString PyNone PyBoolean PyLong PyFloat
+                            PyDictionary]
+           [java.util HashMap]
+           [clojure.lang Keyword PersistentArrayMap PersistentHashMap]))
 
 (def ^:private python
   (doto (PythonInterpreter.)
@@ -29,57 +32,64 @@ def run(code, lexer_name, lexer_opts, formatter_name, formatter_opts):
     if lexer and formatter:
         return highlight(code, lexer, formatter)")))
 
-(defn- val->string
-  "convert a simple Clojure value into a stringified Python one"
-  [v]
-  (cond
-    (string? v)  (pr-str v)
-    (nil? v)     "None"
-    (true? v)    "True"
-    (false? v)   "False"
-    (number? v)  (str v)
-    (char? v)    (recur (str v))
-    (keyword? v) (recur (name v))))
+(defmulti ^:private clj->jy type)
 
-(defn- keyword->argname
-  "convert a Clojure keyword into an argument name for Pygments’ highlight
-  function."
+(let [py-none (.eval ^PythonInterpreter python "None")]
+  (defmethod clj->jy nil [_]
+    py-none))
+
+(let [py-true (PyBoolean. true)
+      py-false (PyBoolean. false)]
+  (defmethod clj->jy Boolean [x]
+    (if x
+      py-true
+      py-false)))
+
+(defmethod clj->jy String [s] (PyString. ^String s))
+(defmethod clj->jy Integer [i] (PyLong. ^Long (long i)))
+(defmethod clj->jy Long [l] (PyLong. ^Long l))
+(defmethod clj->jy Float [f] (PyFloat. ^Float f))
+(defmethod clj->jy Double [d] (PyFloat. ^Double d))
+(defmethod clj->jy Character [c] (PyString. (str c)))
+(defmethod clj->jy Keyword [k] (PyString. (name k)))
+
+(defn- map->jy
+  ([m]
+   (map->jy m identity))
+  ([m keyfn]
+   (let [hm (HashMap. (count m))]
+     (doseq [[k v] m]
+       (.put hm (clj->jy (keyfn k)) (clj->jy v)))
+     (PyDictionary. hm))))
+
+(defmethod clj->jy PersistentHashMap [m] (map->jy m))
+(defmethod clj->jy PersistentArrayMap [m] (map->jy m))
+
+(defn- keyword->lowercase-pystring
   [kw]
-  (-> (name kw)
-      (str/replace #"-" "")
-      (str/lower-case)
-      val->string))
-
-(defn- keyword->langname
-  "convert a keyword into a syntaxically valid language name for Pygments. This
-   doesn’t ensure that the language is supported by Pygments."
-  [kw]
-  (-> (name kw)
-      (str/lower-case)
-      val->string))
-
-(defn- map->kw-args
-  "convert a map into a stringified list of Python keyword arguments"
-  [m]
-  (format "{%s}"
-          (str/join "," (map (fn [[k v]]
-                               (str (keyword->argname k) ":" (val->string v)))
-                             m))))
+  (-> kw name str/lower-case (PyString.)))
 
 (defn highlight
   "highlight a piece of code."
-  ([code lang output] (highlight code lang output {}))
+  ([code lang output] (highlight code lang output nil))
   ([code lang output opts]
    {:pre [(string? code)]}
-   (let [opt-args (map->kw-args opts)
-         ;; We give all options to both lexer and formatter;
-         ;; unknown ones are ignored.
-         python-code (format "run(%s, %s, %s, %s, %s)"
-                             (val->string code)
-                             (keyword->langname lang) opt-args
-                             (keyword->langname output) opt-args)
+   (let [py-code (PyString. ^String code)
+         py-lexer-name (keyword->lowercase-pystring lang)
+         py-formatter-name (keyword->lowercase-pystring output)
 
-         res ^PyObject (.eval ^PythonInterpreter python python-code)]
+         py-opts (map->jy opts
+                          (fn [k]
+                            (-> k name (str/replace #"-" "") str/lower-case)))
+
+         py-run-fn (.eval python "run")
+
+         res (.__call__ py-run-fn
+                        (into-array PyObject [py-code
+                                              py-lexer-name
+                                              py-opts
+                                              py-formatter-name
+                                              py-opts]))]
 
      (when (and res (.__nonzero__ res))
        ;; This won't work with non-text formatters, such as gif, but it's
