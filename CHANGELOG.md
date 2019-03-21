@@ -1,6 +1,6 @@
 # CHANGELOG
 
-## 2.0.0 (unreleased)
+## 2.0.0 (2019/03/21)
 
 * Fix issues with code containing Unicode special characters
 * Make the code more Robust by using the Jython API rather than `eval`uating
