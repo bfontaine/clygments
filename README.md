@@ -2,6 +2,7 @@
 
 [![Build Status](https://img.shields.io/travis/bfontaine/clygments.svg)](https://travis-ci.org/bfontaine/clygments)
 [![Coverage Status](https://img.shields.io/coveralls/bfontaine/clygments.svg)](https://coveralls.io/r/bfontaine/clygments)
+[![Clojars Project](https://img.shields.io/clojars/v/clygments.svg)](https://clojars.org/clygments)
 
 **clygments** is a Clojure wrapper for [Pygments][].
 
@@ -12,7 +13,7 @@
 Add the dependency in your `project.clj`:
 
 ```clj
-[clygments "1.0.0"]
+[clygments "2.0.0"]
 ```
 
 Then:
@@ -37,11 +38,14 @@ language or output.
 
 ## Support
 
-Clygments 0.1.1 supports Java 6+ but Clygments 1.0.0 only supports Java 7+.
+Clygments 0.1.1 supports Java 6+ but Clygments 1.0.0+ only supports Java 7+.
 
 ### Langages
 
 See [Pygments’ list][lexers] for a list of available languages.
+
+If `nil` is passed as a language we use Pygments’ [`guess_lexer`](http://pygments.org/docs/api/#pygments.lexers.guess_lexer).
+Note it takes more time and might not be accurate on small code snippets.
 
 ### Output
 
