@@ -24,4 +24,14 @@
       (let [s "a = \"foo\"\n"]
         (is (= (clg/highlight s :python :null) s)))
       (let [s "a = \"\\\"\"\n"]
-        (is (= (clg/highlight s :python :null) s))))))
+        (is (= (clg/highlight s :python :null) s)))))
+
+  (testing "guess language"
+    (let [code "
+import foo
+# hey
+def main():
+  print(\"hey\")
+"]
+      (is (= (clg/highlight code :python :html)
+             (clg/highlight code nil :html))))))

@@ -10,24 +10,32 @@
   (doto (PythonInterpreter.)
     (.exec "
 from pygments import highlight
-from pygments.lexers import get_lexer_by_name as get_lexer_by_name_
-from pygments.formatters import get_formatter_by_name as get_formatter_by_name_
+from pygments.lexers import get_lexer_by_name, guess_lexer
+from pygments.formatters import get_formatter_by_name
+from pygments.util import ClassNotFound
 
-def get_lexer_by_name(name, opts):
+def get_lexer(name, opts):
     try:
-        return get_lexer_by_name_(name, **opts)
+        return get_lexer_by_name(name, **opts)
     except:
         pass
 
-def get_formatter_by_name(name, opts):
+def get_formatter(name, opts):
     try:
-        return get_formatter_by_name_(name, **opts)
+        return get_formatter_by_name(name, **opts)
     except:
         pass
 
 def run(code, lexer_name, formatter_name, opts):
-    lexer = get_lexer_by_name(lexer_name, opts)
-    formatter = get_formatter_by_name(formatter_name, opts)
+    if lexer_name is None:
+        try:
+           lexer = guess_lexer(code)
+        except ClassNotFound:
+           return
+    else:
+        lexer = get_lexer(lexer_name, opts)
+
+    formatter = get_formatter(formatter_name, opts)
 
     if lexer and formatter:
         return highlight(code, lexer, formatter)")))
@@ -36,11 +44,12 @@ def run(code, lexer_name, formatter_name, opts):
   py-run-fn
   (.eval python "run"))
 
+(def ^:private
+  py-none (.eval ^PythonInterpreter python "None"))
+
 (defmulti ^:private clj->jy type)
 
-(let [py-none (.eval ^PythonInterpreter python "None")]
-  (defmethod clj->jy nil [_]
-    py-none))
+(defmethod clj->jy nil [_] py-none)
 
 (let [py-true (PyBoolean. true)
       py-false (PyBoolean. false)]
@@ -79,7 +88,9 @@ def run(code, lexer_name, formatter_name, opts):
   ([code lang output opts]
    {:pre [(string? code)]}
    (let [py-code (PyUnicode. ^String code)
-         py-lexer-name (keyword->lowercase-pystring lang)
+         py-lexer-name (if (some? lang)
+                         (keyword->lowercase-pystring lang)
+                         py-none)
          py-formatter-name (keyword->lowercase-pystring output)
 
          py-opts (map->jy opts
