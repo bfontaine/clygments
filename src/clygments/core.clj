@@ -1,8 +1,8 @@
 (ns clygments.core
   (:require [clojure.string :as str])
   (:import [org.python.util PythonInterpreter]
-           [org.python.core PyObject PyString PyNone PyBoolean PyLong PyFloat
-                            PyDictionary]
+           [org.python.core PyObject PyNone PyBoolean PyLong PyFloat
+                            PyDictionary PyUnicode]
            [java.util HashMap]
            [clojure.lang Keyword PersistentArrayMap PersistentHashMap]))
 
@@ -49,13 +49,13 @@ def run(code, lexer_name, formatter_name, opts):
       py-true
       py-false)))
 
-(defmethod clj->jy String [s] (PyString. ^String s))
+(defmethod clj->jy String [s] (PyUnicode. ^String s))
 (defmethod clj->jy Integer [i] (PyLong. ^Long (long i)))
 (defmethod clj->jy Long [l] (PyLong. ^Long l))
 (defmethod clj->jy Float [f] (PyFloat. ^Float f))
 (defmethod clj->jy Double [d] (PyFloat. ^Double d))
-(defmethod clj->jy Character [c] (PyString. (str c)))
-(defmethod clj->jy Keyword [k] (PyString. (name k)))
+(defmethod clj->jy Character [c] (PyUnicode. (str c)))
+(defmethod clj->jy Keyword [k] (PyUnicode. (name k)))
 
 (defn- map->jy
   ([m]
@@ -71,14 +71,14 @@ def run(code, lexer_name, formatter_name, opts):
 
 (defn- keyword->lowercase-pystring
   [kw]
-  (-> kw name str/lower-case (PyString.)))
+  (-> kw name str/lower-case (PyUnicode.)))
 
 (defn highlight
   "highlight a piece of code."
   ([code lang output] (highlight code lang output nil))
   ([code lang output opts]
    {:pre [(string? code)]}
-   (let [py-code (PyString. ^String code)
+   (let [py-code (PyUnicode. ^String code)
          py-lexer-name (keyword->lowercase-pystring lang)
          py-formatter-name (keyword->lowercase-pystring output)
 
