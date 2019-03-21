@@ -104,6 +104,6 @@ def run(code, lexer_name, formatter_name, opts):
                                               py-opts]))]
 
      (when (and res (.__nonzero__ res))
-       ;; This won't work with non-text formatters, such as gif, but it's
+       ;; This won't work with non-text formatters such as :gif, but it's
        ;; ok since they're not supported on Jython (#2)
        (.asString res)))))
