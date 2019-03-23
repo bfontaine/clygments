@@ -1,5 +1,20 @@
 # CHANGELOG
 
+## 2.1.0 (unreleased)
+
+This release drops the Python interpreter and uses [Clython][] instead. It
+improves the performance by at least 15% and up to 38%:
+
+```
+Clygments version:                                 2.0.0   2.1.0
+
+Highlighting all C    files from Git (N=463)      -   87s     74s (-15%)
+                 Java files from Jython3 (N=1090) -  155s     96s (-38%)
+                 Ruby files from Rouge (N=327)    -   17s     14s (-18%)
+```
+
+[Clython]: https://github.com/bfontaine/clython
+
 ## 2.0.0 (2019/03/21)
 
 * Fix issues with code containing Unicode special characters
