@@ -13,7 +13,7 @@
 Add the dependency in your `project.clj`:
 
 ```clj
-[clygments "2.0.0"]
+[clygments "2.0.1"]
 ```
 
 Then:
@@ -38,7 +38,7 @@ language or output.
 
 ## Support
 
-Clygments 0.1.1 supports Java 6+ but Clygments 1.0.0+ only supports Java 7+.
+Clygments 1.0.0+ only supports Java 7+.
 
 ### Langages
 
@@ -85,7 +85,7 @@ Pygments’ docs for more info.
 
 ## License
 
-Copyright © 2014-2019 Baptiste Fontaine
+Copyright © 2014-2020 Baptiste Fontaine
 
 Distributed under the Eclipse Public License either version 1.0 or any later
 version.
