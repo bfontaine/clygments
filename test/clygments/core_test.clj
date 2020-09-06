@@ -9,22 +9,22 @@
   (testing "unknown output"
     (is (nil? (clg/highlight "(+ 2 2)" :clojure :foobar))))
   (testing ":null formatter"
-    (is (= (clg/highlight "(+ 1 2)" :clojure :null) "(+ 1 2)\n"))
+    (is (= "(+ 1 2)\n" (clg/highlight "(+ 1 2)" :clojure :null)))
     (testing ":strip-nl option"
-      (is (= (clg/highlight "\n\n(+ 1 2)\n" :clojure :null {:strip-nl true})
-             "(+ 1 2)\n"))
-      (is (= (clg/highlight "\n\n(+ 1 2)\n" :clojure :null {:strip-nl false})
-             "\n\n(+ 1 2)\n")))
+      (is (= "(+ 1 2)\n"
+             (clg/highlight "\n\n(+ 1 2)\n" :clojure :null {:strip-nl true})))
+      (is (= "\n\n(+ 1 2)\n"
+             (clg/highlight "\n\n(+ 1 2)\n" :clojure :null {:strip-nl false}))))
     (testing ":tab-size option"
-      (is (= (clg/highlight "\t(+ 1 2)" :clojure :null {:tab-size 2})
-             "  (+ 1 2)\n")))
+      (is (= "  (+ 1 2)\n"
+             (clg/highlight "\t(+ 1 2)" :clojure :null {:tab-size 2}))))
     (testing "python syntax"
       (let [s "def f():\n  \"\"\"\n  doc\n  \"\"\"\n  pass\n"]
-        (is (= (clg/highlight s :python :null) s)))
+        (is (= s (clg/highlight s :python :null))))
       (let [s "a = \"foo\"\n"]
-        (is (= (clg/highlight s :python :null) s)))
+        (is (= s (clg/highlight s :python :null))))
       (let [s "a = \"\\\"\"\n"]
-        (is (= (clg/highlight s :python :null) s)))))
+        (is (= s (clg/highlight s :python :null))))))
 
   (testing "guess language"
     (let [code "
@@ -33,5 +33,5 @@ import foo
 def main():
   print(\"hey\")
 "]
-      (is (= (clg/highlight code :python :html)
+      (is (= (clg/highlight code :python2 :html)
              (clg/highlight code nil :html))))))

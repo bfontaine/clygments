@@ -1,5 +1,9 @@
 # CHANGELOG
 
+## 2.0.1 (2020/09/06)
+
+* Bump Pygments from 2.3.1 to [2.5.2][pygments-changelog].
+
 ## 2.0.0 (2019/03/21)
 
 * Fix issues with code containing Unicode special characters
