@@ -6,7 +6,7 @@
            [java.util HashMap]
            [clojure.lang Keyword PersistentArrayMap PersistentHashMap]))
 
-(def ^:private python
+(def ^:private ^PythonInterpreter python
   (doto (PythonInterpreter.)
     (.exec "
 from pygments import highlight
@@ -40,12 +40,11 @@ def run(code, lexer_name, formatter_name, opts):
     if lexer and formatter:
         return highlight(code, lexer, formatter)")))
 
-(def ^:private
-  py-run-fn
+(def ^:private ^PyObject py-run-fn
   (.eval python "run"))
 
-(def ^:private
-  py-none (.eval ^PythonInterpreter python "None"))
+(def ^:private ^PyObject py-none
+  (.eval python "None"))
 
 (defmulti ^:private clj->jy type)
 
@@ -66,7 +65,7 @@ def run(code, lexer_name, formatter_name, opts):
 (defmethod clj->jy Character [c] (PyUnicode. (str c)))
 (defmethod clj->jy Keyword [k] (PyUnicode. (name k)))
 
-(defn- map->jy
+(defn- ^PyObject map->jy
   ([m]
    (map->jy m identity))
   ([m keyfn]
@@ -78,7 +77,7 @@ def run(code, lexer_name, formatter_name, opts):
 (defmethod clj->jy PersistentHashMap [m] (map->jy m))
 (defmethod clj->jy PersistentArrayMap [m] (map->jy m))
 
-(defn- keyword->lowercase-pystring
+(defn- ^PyUnicode keyword->lowercase-pystring
   [kw]
   (-> kw name str/lower-case (PyUnicode.)))
 
@@ -89,19 +88,18 @@ def run(code, lexer_name, formatter_name, opts):
    {:pre [(string? code)]}
    (let [py-code (PyUnicode. ^String code)
          py-lexer-name (if (some? lang)
-                         (keyword->lowercase-pystring lang)
+                         ^PyObject (keyword->lowercase-pystring lang)
                          py-none)
          py-formatter-name (keyword->lowercase-pystring output)
 
          py-opts (map->jy opts
                           (fn [k]
                             (-> k name (str/replace #"-" "") str/lower-case)))
-
          res (.__call__ py-run-fn
-                        (into-array PyObject [py-code
-                                              py-lexer-name
-                                              py-formatter-name
-                                              py-opts]))]
+                        py-code
+                        py-lexer-name
+                        py-formatter-name
+                        py-opts)]
 
      (when (and res (.__nonzero__ res))
        ;; This won't work with non-text formatters such as :gif, but it's
