@@ -2,9 +2,10 @@ language: clojure
 after_script:
   - bash -ex test/coveralls.sh
 jdk:
-  - openjdk7
   - openjdk8
-  - oraclejdk8
-  - oraclejdk9
+  - openjdk10
+  - openjdk11
+  - oraclejdk10
+  - oraclejdk11
 notifications:
   email: false
