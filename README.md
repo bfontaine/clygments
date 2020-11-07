@@ -24,10 +24,8 @@ Then:
 ```
 
 It exposes only one function, `highlight`. Give it your code as a string, its
-language and the desired output and it’ll do that for you :)
-
-It’ll return a string or `nil` if there was an error, like an unsupported
-language or output.
+language and the desired output. It returns a string, or `nil` if there is an error
+like an unsupported language or output.
 
 ### Example
 
@@ -40,7 +38,7 @@ language or output.
 
 Clygments 1.0.0+ only supports Java 7+.
 
-### Langages
+### Languages
 
 See [Pygments’ list][lexers] for a list of available languages.
 
