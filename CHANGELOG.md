@@ -1,5 +1,10 @@
 # CHANGELOG
 
+## 2.0.2 (2020/11/07)
+
+* Add type hints to avoid reflection (#4; thanks to @mthl)
+* Remove the dependency on Clojure 1.8.0
+
 ## 2.0.1 (2020/09/06)
 
 * Bump Pygments from 2.3.1 to [2.5.2][pygments-changelog].
